@@ -108,3 +108,7 @@
 2025-07-13 16:01:00,728 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:01:00] "GET /api/me HTTP/1.1" 200 -
 2025-07-13 16:01:01,654 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:01:01] "GET /api/me HTTP/1.1" 200 -
 2025-07-13 16:01:01,962 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:01:01] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:02:30,430 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:02:30] "OPTIONS /api/voice HTTP/1.1" 200 -
+2025-07-13 16:02:30,705 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 10 requests per 60s
+2025-07-13 16:02:30,727 - routes.voice_routes - INFO - Processing voice file: recording.wav
+2025-07-13 16:02:37,642 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:02:37] "POST /api/voice HTTP/1.1" 200 -
