@@ -25,4 +25,35 @@ const Workspace: React.FC<WorkspaceProps> = ({ onBackToLanding }) => {
       setShowUpgrade(true);
     }
   };
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        fetch('http://localhost:5000/api/me', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+          .then((res) => res.ok ? res.json() : Promise.reject())
+          .then((data) => {
+            setUser({ username: data.username, plan: data.plan, credits: data.credits });
+          })
+          .catch(() => setUser(null));
+      } else {
+        setUser(null);
+      }
+    };
+
+    checkAuth();
+    
+    // Listen for auth state changes
+    const handleAuthChange = () => {
+      checkAuth();
+    };
+
+    window.addEventListener('authStateChanged', handleAuthChange);
+
+    return () => {
+      window.removeEventListener('authStateChanged', handleAuthChange);
+    };
+  }, []);
 }

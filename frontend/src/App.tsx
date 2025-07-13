@@ -37,8 +37,29 @@ function App() {
     setIsLoading(false);
   };
 
+  // Listen for authentication changes
   useEffect(() => {
     checkAuth();
+    
+    // Listen for storage changes (when token is added/removed)
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'token') {
+        checkAuth();
+      }
+    };
+
+    // Listen for custom auth events
+    const handleAuthChange = () => {
+      checkAuth();
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('authStateChanged', handleAuthChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('authStateChanged', handleAuthChange);
+    };
   }, []);
 
   const handleEnterWorkspace = () => {
@@ -64,11 +85,13 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-gray-50">
       {currentView === 'landing' ? (
         <LandingPage onEnterWorkspace={handleEnterWorkspace} />
       ) : (
-        <Workspace onBackToLanding={handleBackToLanding} />
+        <div className="flex-1 flex flex-col">
+          <Workspace onBackToLanding={handleBackToLanding} />
+        </div>
       )}
     </div>
   );

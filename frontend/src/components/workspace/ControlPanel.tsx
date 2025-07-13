@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Wand2, Sparkles, Settings, Coins } from 'lucide-react';
+import { Wand2, Sparkles, Settings, Coins, Palette, Zap, Shield } from 'lucide-react';
 import PromptInput from './ControlPanel/PromptInput';
 import ArtStyleSelector from './ControlPanel/ArtStyleSelector';
 import QualitySelector from './ControlPanel/QualitySelector';
@@ -30,13 +30,12 @@ interface ControlPanelProps {
 const ControlPanel: React.FC<ControlPanelProps> = ({ isDarkMode, formData, setFormData, setImgPath, user }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  // const [showAdvancedSettings, setShowAdvancedSettings] = useState(false);
   const [advancedSettings, setAdvancedSettings] = useState<AdvancedSettingsData | null>(null);
 
   const qualities = [
-    { id: 'standard', name: 'Standard', description: '1024x1024' },
-    { id: 'hd', name: 'HD', description: '1792x1024' },
-    { id: 'ultra', name: 'Ultra HD', description: '2048x2048' }
+    { id: 'standard', name: 'Standard', description: '1024x1024', icon: '📱' },
+    { id: 'hd', name: 'HD', description: '1792x1024', icon: '🖥️' },
+    { id: 'ultra', name: 'Ultra HD', description: '2048x2048', icon: '🎬' }
   ];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,21 +66,37 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isDarkMode, formData, setFo
     }
   };
 
-  // const handleAdvancedSettingsSave = (settings: AdvancedSettingsData) => {
-  //   setAdvancedSettings(settings);
-  //   console.log('Advanced settings saved:', settings);
-  // };
-
   return (
     <>
-      <div className={`w-80 ${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} border-l p-6`}>
+      <div className={`w-80 ${isDarkMode ? 'bg-gray-900/95 backdrop-blur-md border-gray-700' : 'bg-white/95 backdrop-blur-md border-gray-200'} border-l p-6 overflow-y-auto`}>
         <div className="space-y-6">
-          <form onSubmit={handleSubmit}>
-            {/* Prompt Display */}
-            <div>
+          {/* Enhanced Header */}
+          <div className="text-center pb-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-center space-x-2 mb-2">
+              <div className="glass p-2 rounded-xl">
+                <Wand2 className="w-5 h-5 text-gradient" />
+              </div>
+              <h2 className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                AI Generator
+              </h2>
+            </div>
+            <p className={`text-sm ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              Transform your voice into stunning visuals
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Enhanced Prompt Display */}
+            <div className="card p-4 hover-lift">
               <div className="flex items-center justify-between mb-3">
-                <label className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>Generated Prompt</label>
-                <button type="button" className="flex items-center space-x-1 text-blue-500 hover:text-blue-600 text-sm">
+                <label className={`text-sm font-semibold flex items-center space-x-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                  <Sparkles className="w-4 h-4 text-gradient" />
+                  <span>Generated Prompt</span>
+                </label>
+                <button 
+                  type="button" 
+                  className="flex items-center space-x-1 text-primary-500 hover:text-primary-600 text-sm hover-glow px-2 py-1 rounded-lg transition-all duration-300"
+                >
                   <Wand2 className="w-4 h-4" />
                   <span>Enhance</span>
                 </button>
@@ -94,10 +109,11 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isDarkMode, formData, setFo
               />
             </div>
 
-            {/* Art Style (Realistic or Anime) */}
-            <div>
-              <label className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 block`}>
-                Art Style
+            {/* Enhanced Art Style Section */}
+            <div className="card p-4 hover-lift">
+              <label className={`text-sm font-semibold flex items-center space-x-2 mb-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <Palette className="w-4 h-4 text-gradient" />
+                <span>Art Style</span>
               </label>
               <ArtStyleSelector
                 value={formData.artStyle}
@@ -106,10 +122,11 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isDarkMode, formData, setFo
               />
             </div>
 
-            {/* Image Quality */}
-            <div>
-              <label className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 block`}>
-                Image Quality
+            {/* Enhanced Image Quality Section */}
+            <div className="card p-4 hover-lift">
+              <label className={`text-sm font-semibold flex items-center space-x-2 mb-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <Zap className="w-4 h-4 text-gradient" />
+                <span>Image Quality</span>
               </label>
               <QualitySelector
                 value={formData.quality}
@@ -119,10 +136,11 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isDarkMode, formData, setFo
               />
             </div>
 
-            {/* Negative Prompt */}
-            <div>
-              <label className={`text-sm font-medium ${isDarkMode ? 'text-gray-300' : 'text-gray-700'} mb-3 block`}>
-                Negative Prompt
+            {/* Enhanced Negative Prompt Section */}
+            <div className="card p-4 hover-lift">
+              <label className={`text-sm font-semibold flex items-center space-x-2 mb-3 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+                <Shield className="w-4 h-4 text-gradient" />
+                <span>Negative Prompt</span>
               </label>
               <NegativePromptInput
                 value={formData.negativePrompt}
@@ -132,61 +150,58 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isDarkMode, formData, setFo
               />
             </div>
 
-            {/* Generate Button */}
-            <GenerateButton
-              isSubmitting={isSubmitting}
-              disabled={!user || user.credits < 5}
-              isDarkMode={isDarkMode}
-            >
-              <span className="flex items-center justify-center space-x-2">
-                {isSubmitting ? (
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                ) : (
-                  <>
-                    <Sparkles className="w-5 h-5" />
-                    <span className="flex items-center ml-2 text-xs font-semibold"><Coins className="w-4 h-4 mr-1" />5 credits</span>
-                  </>
-                )}
-                <span>{isSubmitting ? 'Generating...' : 'Generate Image'}</span>
-              </span>
-            </GenerateButton>
-            {error && (
-              <div className="mt-2 text-red-500 text-sm text-center">{error}</div>
-            )}
+            {/* Enhanced Generate Button Section */}
+            <div className="space-y-3">
+              <GenerateButton
+                isSubmitting={isSubmitting}
+                disabled={!user || user.credits < 5}
+                isDarkMode={isDarkMode}
+              >
+                <span className="flex items-center justify-center space-x-2">
+                  {isSubmitting ? (
+                    <div className="spinner w-5 h-5"></div>
+                  ) : (
+                    <>
+                      <Sparkles className="w-5 h-5" />
+                      <span className="flex items-center ml-2 text-xs font-semibold">
+                        <Coins className="w-4 h-4 mr-1" />
+                        5 credits
+                      </span>
+                    </>
+                  )}
+                  <span>{isSubmitting ? 'Generating...' : 'Generate Image'}</span>
+                </span>
+              </GenerateButton>
+              
+              {error && (
+                <div className="glass p-3 rounded-xl border border-red-200 dark:border-red-800">
+                  <div className="text-red-500 text-sm text-center flex items-center justify-center space-x-2">
+                    <Shield className="w-4 h-4" />
+                    <span>{error}</span>
+                  </div>
+                </div>
+              )}
 
-            {/* Advanced Settings Button */}
-            {/*
-            <button 
-              type="button"
-              onClick={() => setShowAdvancedSettings(true)}
-              className={`w-full flex items-center justify-center space-x-2 py-2 px-4 rounded-lg transition-colors ${
-                isDarkMode 
-                  ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' 
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              <Settings className="w-4 h-4" />
-              <span>Advanced Settings</span>
-            </button>
-            */}
+              {/* Enhanced Credits Display */}
+              {user && (
+                <div className="glass p-3 rounded-xl text-center">
+                  <div className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+                    Available Credits
+                  </div>
+                  <div className={`text-lg font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                    {user.credits}
+                  </div>
+                </div>
+              )}
+            </div>
 
-            {/* Advanced Settings Indicator */}
+            {/* Enhanced Advanced Settings Indicator */}
             {advancedSettings && (
               <AdvancedSettingsIndicator isDarkMode={isDarkMode} />
             )}
           </form>
         </div>
       </div>
-
-      {/* Advanced Settings Modal */}
-      {/*
-      <AdvancedSettings
-        isOpen={showAdvancedSettings}
-        onClose={() => setShowAdvancedSettings(false)}
-        isDarkMode={isDarkMode}
-        onSave={handleAdvancedSettingsSave}
-      />
-      */}
     </>
   );
 };

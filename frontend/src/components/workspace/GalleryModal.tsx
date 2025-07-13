@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { X, Download, Share2, Heart, Trash2, Filter, Search, ChevronLeft, ChevronRight, Calendar, Palette } from 'lucide-react';
 import { fetchUserGallery } from '../../utils/server';
+import { 
+  GalleryHeader, 
+  SearchAndFilter, 
+  GalleryGrid, 
+  GalleryPagination 
+} from './GalleryModal/index';
 
 interface GalleryModalProps {
   isOpen: boolean;
@@ -26,7 +31,6 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, isDarkMode
   const [totalPages, setTotalPages] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStyle, setSelectedStyle] = useState<string>('all');
-  const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
 
   const fetchImages = async (page: number = 1) => {
     setLoading(true);
@@ -111,6 +115,11 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, isDarkMode
     });
   };
 
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    fetchImages(page);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -121,52 +130,16 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, isDarkMode
         <div className={`inline-block w-full max-w-7xl p-6 my-8 overflow-hidden text-left align-middle transition-all transform ${
           isDarkMode ? 'bg-gray-800' : 'bg-white'
         } shadow-xl rounded-2xl`}>
-          <div className="flex items-center justify-between mb-6">
-            <h2 className={`text-2xl font-bold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-              My Gallery
-            </h2>
-            <button
-              onClick={onClose}
-              className={`p-2 rounded-lg transition-colors ${
-                isDarkMode ? 'hover:bg-gray-700 text-gray-400' : 'hover:bg-gray-100 text-gray-600'
-              }`}
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
+          
+          <GalleryHeader isDarkMode={isDarkMode} onClose={onClose} />
 
-          {/* Search and Filter Bar */}
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-1 relative">
-              <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 ${
-                isDarkMode ? 'text-gray-400' : 'text-gray-500'
-              }`} />
-              <input
-                type="text"
-                placeholder="Search by prompt..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border rounded-lg ${
-                  isDarkMode 
-                    ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' 
-                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
-                } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-              />
-            </div>
-            <select
-              value={selectedStyle}
-              onChange={(e) => setSelectedStyle(e.target.value)}
-              className={`px-4 py-2 border rounded-lg ${
-                isDarkMode 
-                  ? 'bg-gray-700 border-gray-600 text-white' 
-                  : 'bg-white border-gray-300 text-gray-900'
-              } focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            >
-              <option value="all">All Styles</option>
-              <option value="realistic">Realistic</option>
-              <option value="anime">Anime</option>
-            </select>
-          </div>
+          <SearchAndFilter 
+            isDarkMode={isDarkMode}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+            selectedStyle={selectedStyle}
+            setSelectedStyle={setSelectedStyle}
+          />
 
           {/* Loading State */}
           {loading && (
@@ -187,111 +160,22 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, isDarkMode
           {/* Images Grid */}
           {!loading && !error && (
             <>
-              {filteredImages.length === 0 ? (
-                <div className="text-center py-12">
-                  <Palette className={`w-16 h-16 mx-auto mb-4 ${
-                    isDarkMode ? 'text-gray-600' : 'text-gray-400'
-                  }`} />
-                  <p className={`text-lg ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {images.length === 0 ? 'No images generated yet' : 'No images match your search'}
-                  </p>
-                  <p className={`text-sm ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-                    Start creating images to see them here!
-                  </p>
-                </div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {filteredImages.map((image) => (
-                    <div key={image.id} className={`group relative rounded-xl overflow-hidden ${
-                      isDarkMode ? 'bg-gray-700' : 'bg-gray-100'
-                    }`}>
-                      <img
-                        src={image.url}
-                        alt={image.prompt}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                        onError={(e) => {
-                          e.currentTarget.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
-                        }}
-                      />
-                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <button 
-                            onClick={() => handleDownload(image)}
-                            className="p-2 bg-white rounded-full hover:bg-gray-100 transition-colors"
-                            title="Download"
-                          >
-                            <Download className="w-4 h-4 text-gray-700" />
-                          </button>
-                          <button 
-                            onClick={() => handleShare(image)}
-                            className="p-2 bg-white rounded-full hover:bg-gray-100 transition-colors"
-                            title="Share"
-                          >
-                            <Share2 className="w-4 h-4 text-gray-700" />
-                          </button>
-                          <button 
-                            onClick={() => handleDelete(image.id)}
-                            className="p-2 bg-white rounded-full hover:bg-gray-100 transition-colors"
-                            title="Delete"
-                          >
-                            <Trash2 className="w-4 h-4 text-gray-700" />
-                          </button>
-                        </div>
-                      </div>
-                      <div className="p-4">
-                        <p className={`text-sm font-medium mb-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-900'}`}>
-                          {image.prompt.length > 50 ? `${image.prompt.substring(0, 50)}...` : image.prompt}
-                        </p>
-                        <div className="flex items-center justify-between text-xs text-gray-500">
-                          <span className="capitalize">{image.art_style}</span>
-                          <span className="uppercase">{image.quality}</span>
-                        </div>
-                        <div className="flex items-center mt-2 text-xs text-gray-500">
-                          <Calendar className="w-3 h-3 mr-1" />
-                          {formatDate(image.created_at)}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+              <GalleryGrid
+                isDarkMode={isDarkMode}
+                images={images}
+                filteredImages={filteredImages}
+                onDownload={handleDownload}
+                onShare={handleShare}
+                onDelete={handleDelete}
+                formatDate={formatDate}
+              />
 
-              {/* Pagination */}
-              {totalPages > 1 && (
-                <div className="flex items-center justify-center mt-8 space-x-2">
-                  <button
-                    onClick={() => {
-                      setCurrentPage(prev => Math.max(1, prev - 1));
-                      fetchImages(currentPage - 1);
-                    }}
-                    disabled={currentPage === 1}
-                    className={`p-2 rounded-lg ${
-                      currentPage === 1
-                        ? 'opacity-50 cursor-not-allowed'
-                        : 'hover:bg-gray-100'
-                    } ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-                  <span className={`px-4 py-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                    Page {currentPage} of {totalPages}
-                  </span>
-                  <button
-                    onClick={() => {
-                      setCurrentPage(prev => Math.min(totalPages, prev + 1));
-                      fetchImages(currentPage + 1);
-                    }}
-                    disabled={currentPage === totalPages}
-                    className={`p-2 rounded-lg ${
-                      currentPage === totalPages
-                        ? 'opacity-50 cursor-not-allowed'
-                        : 'hover:bg-gray-100'
-                    } ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
-              )}
+              <GalleryPagination
+                isDarkMode={isDarkMode}
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
             </>
           )}
         </div>

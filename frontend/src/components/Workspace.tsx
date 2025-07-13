@@ -21,17 +21,34 @@ const Workspace: React.FC<WorkspaceProps> = ({ onBackToLanding }) => {
   const [user, setUser] = useState<{ username: string; plan: string; credits: number } | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      fetch('http://localhost:5000/api/me', {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-        .then((res) => res.ok ? res.json() : Promise.reject())
-        .then((data) => {
-          setUser({ username: data.username, plan: data.plan, credits: data.credits });
+    const checkAuth = () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        fetch('http://localhost:5000/api/me', {
+          headers: { Authorization: `Bearer ${token}` },
         })
-        .catch(() => setUser(null));
-    }
+          .then((res) => res.ok ? res.json() : Promise.reject())
+          .then((data) => {
+            setUser({ username: data.username, plan: data.plan, credits: data.credits });
+          })
+          .catch(() => setUser(null));
+      } else {
+        setUser(null);
+      }
+    };
+
+    checkAuth();
+    
+    // Listen for auth state changes
+    const handleAuthChange = () => {
+      checkAuth();
+    };
+
+    window.addEventListener('authStateChanged', handleAuthChange);
+
+    return () => {
+      window.removeEventListener('authStateChanged', handleAuthChange);
+    };
   }, []);
 
   const [formData, setFormData] = useState<{
@@ -59,14 +76,14 @@ const Workspace: React.FC<WorkspaceProps> = ({ onBackToLanding }) => {
   
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+    <div className={`flex-1 flex flex-col ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
       <Header 
         onBackToLanding={onBackToLanding} 
         isDarkMode={isDarkMode}
         setIsDarkMode={setIsDarkMode}
         user={user}
       />
-      <div className="flex pt-16">
+      <div className="flex flex-1 pt-16">
         <Sidebar 
           activeSection={activeSection}
           onSectionChange={handleSectionChange}
@@ -74,7 +91,7 @@ const Workspace: React.FC<WorkspaceProps> = ({ onBackToLanding }) => {
         />
         <div className="flex-1 flex">
           <MainWorkspace isDarkMode={isDarkMode} formData={formData} setFormData={setFormData} img_path={img_path} />
-          <ControlPanel isDarkMode={isDarkMode} formData={formData} setFormData={setFormData} setImgPath={setImgPath} user={user} setUser={setUser} />
+          <ControlPanel isDarkMode={isDarkMode} formData={formData} setFormData={setFormData} setImgPath={setImgPath} user={user} />
         </div>
       </div>
       {/* Modals */}
