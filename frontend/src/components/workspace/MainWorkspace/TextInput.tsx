@@ -17,11 +17,21 @@ const TextInput: React.FC<TextInputProps> = ({ isDarkMode, setFormData }) => {
   const handleTextInputChange = async (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
     setTextInput(value);
+    
+    // Update prompt immediately for better UX
+    setFormData(prev => ({ ...prev, prompt: value }));
+    
+    // Try to get translation if text is not empty
     if (value.trim()) {
-      const response = await sendTextToServer(value);
-      setFormData(prev => ({ ...prev, prompt: response.translation || '' }));
-    } else {
-      setFormData(prev => ({ ...prev, prompt: '' }));
+      try {
+        const response = await sendTextToServer(value);
+        if (response.translation) {
+          setFormData(prev => ({ ...prev, prompt: response.translation }));
+        }
+      } catch (error) {
+        console.log('Translation failed, using original text as prompt');
+        // Keep the original text as prompt if translation fails
+      }
     }
   };
 

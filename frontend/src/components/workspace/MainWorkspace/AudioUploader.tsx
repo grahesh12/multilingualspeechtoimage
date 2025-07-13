@@ -48,8 +48,8 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({ isDarkMode, setFormData }
           setUploadedFile(null);
           return;
         }
-        setTranscription(response.transcription || ''); // Use original for transcription
-        setFormData(prev => ({ ...prev, prompt: response.translation || '' })); // Use translation for prompt
+        setTranscription(response.transcription || '');
+        setFormData(prev => ({ ...prev, prompt: response.translation || response.transcription || '' }));
       } catch (err) {
         setErrorMsg('Failed to upload or process the audio file.');
         setUploadedFile(null);
@@ -88,7 +88,7 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({ isDarkMode, setFormData }
           return;
         }
         setTranscription(response.transcription || '');
-        setFormData(prev => ({ ...prev, prompt: response.translation || '' }));
+        setFormData(prev => ({ ...prev, prompt: response.translation || response.transcription || '' }));
       } catch (err) {
         setErrorMsg('Failed to upload or process the audio file.');
         setUploadedFile(null);

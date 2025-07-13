@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global height styles for full viewport */
+html, body, #root {
+  height: 100%;
+  min-height: 100vh;
+}
+
 /* Enhanced Animated Gradient Background */
 .animated-gradient {
   background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #667eea, #764ba2, #f093fb, #f5576c);

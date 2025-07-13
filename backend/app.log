@@ -1,0 +1,124 @@
+2025-07-13 16:42:46,981 - services.voice_service - INFO - Voice service initialized with model: base
+2025-07-13 16:42:47,006 - app - INFO - Modular Flask application created successfully
+2025-07-13 16:42:47,051 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.43.14:5000
+2025-07-13 16:42:47,052 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-13 16:42:47,225 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:47] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:47,226 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:47] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:47,542 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:47] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:47,550 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:47] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:47,973 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:47] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:48,238 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:48] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:48,301 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:48] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:48,574 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:48] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:48,609 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:48] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:48,908 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:48] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:55,561 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:55] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:55,564 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:55] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:55,815 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:55] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:42:55,886 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:42:55] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:45:50,050 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:45:50] "OPTIONS /api/voice HTTP/1.1" 200 -
+2025-07-13 16:45:50,314 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 10 requests per 60s
+2025-07-13 16:45:50,320 - routes.voice_routes - INFO - Processing voice file: recording.wav
+2025-07-13 16:45:53,931 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:45:53] "POST /api/voice HTTP/1.1" 200 -
+2025-07-13 16:47:59,443 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:47:59] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:47:59,445 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:47:59] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:47:59,450 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:47:59] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:47:59,456 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:47:59] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:47:59,465 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:47:59] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:47:59,471 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:47:59] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:47:59,770 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:47:59] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:48:00,082 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:48:00] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:48:00,345 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:48:00] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:48:00,390 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:48:00] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:48:00,667 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:48:00] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:48:00,720 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:48:00] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:48:52,991 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:48:52] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:48:52,992 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:48:52] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 16:48:53,242 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:48:53] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 16:48:53,304 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 16:48:53] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 17:03:04,485 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:04] "OPTIONS /api/text HTTP/1.1" 200 -
+2025-07-13 17:03:04,724 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:04] "OPTIONS /api/text HTTP/1.1" 200 -
+2025-07-13 17:03:04,732 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:04,743 - routes.text_routes - INFO - Received text: h...
+2025-07-13 17:03:04,798 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:04,799 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:04] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:04,802 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:04,803 - routes.text_routes - INFO - Received text: hw...
+2025-07-13 17:03:04,805 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:04,806 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:04] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:05,533 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:05,534 - routes.text_routes - INFO - Received text: h...
+2025-07-13 17:03:05,535 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:05,536 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:05] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:06,125 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:06,128 - routes.text_routes - INFO - Received text: h...
+2025-07-13 17:03:06,130 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:06,130 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:06,131 - routes.text_routes - INFO - Received text: hw...
+2025-07-13 17:03:06,132 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:06] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:06,133 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:06,133 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:06] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:06,550 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:06,551 - routes.text_routes - INFO - Received text: h...
+2025-07-13 17:03:06,553 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:06,553 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:06] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:08,439 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:08,440 - routes.text_routes - INFO - Received text: h...
+2025-07-13 17:03:08,442 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:08,442 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:08] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:08,446 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:08,447 - routes.text_routes - INFO - Received text: hw...
+2025-07-13 17:03:08,450 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:08,451 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:08] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:08,706 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:08,706 - routes.text_routes - INFO - Received text: h...
+2025-07-13 17:03:08,708 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:08,708 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:08] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:12,771 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:12] "OPTIONS /api/text HTTP/1.1" 200 -
+2025-07-13 17:03:12,774 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:12] "OPTIONS /api/text HTTP/1.1" 200 -
+2025-07-13 17:03:13,034 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:13] "OPTIONS /api/text HTTP/1.1" 200 -
+2025-07-13 17:03:13,035 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:13,038 - routes.text_routes - INFO - Received text: h...
+2025-07-13 17:03:13,040 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:13,040 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:13] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:13,088 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:13,092 - routes.text_routes - INFO - Received text: hw...
+2025-07-13 17:03:13,095 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:03:13,097 - routes.text_routes - INFO - Received text: h...
+2025-07-13 17:03:13,098 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:13,105 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:13] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:03:13,105 - utils.translation - ERROR - Translation error: [Errno 11001] getaddrinfo failed
+2025-07-13 17:03:13,107 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:03:13] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:09:17,762 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:17] "OPTIONS /api/text HTTP/1.1" 200 -
+2025-07-13 17:09:18,003 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:09:18,004 - routes.text_routes - INFO - Received text: he...
+2025-07-13 17:09:18,333 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:09:18,334 - routes.text_routes - INFO - Received text: hel...
+2025-07-13 17:09:20,145 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:09:20,146 - routes.text_routes - INFO - Received text: hell...
+2025-07-13 17:09:20,409 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:09:20,409 - routes.text_routes - INFO - Received text: hello...
+2025-07-13 17:09:28,714 - utils.translation - ERROR - Translation error: timed out
+2025-07-13 17:09:28,716 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:28] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -
+2025-07-13 17:09:28,999 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:28] "OPTIONS /api/voice HTTP/1.1" 200 -
+2025-07-13 17:09:29,326 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 10 requests per 60s
+2025-07-13 17:09:29,341 - routes.voice_routes - INFO - Processing voice file: recording.wav
+2025-07-13 17:09:30,027 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:30] "OPTIONS /api/text HTTP/1.1" 200 -
+2025-07-13 17:09:30,335 - middleware.rate_limiter - INFO - Rate limit check for 127.0.0.1: 20 requests per 60s
+2025-07-13 17:09:30,335 - routes.text_routes - INFO - Received text: he...
+2025-07-13 17:09:35,331 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:35] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:35,333 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:35] "OPTIONS /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:35,633 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:35] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:35,643 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:35] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:36,397 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:36] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:36,657 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:36] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:36,736 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:36] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:36,982 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:36] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:37,072 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:37] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:37,108 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:37] "POST /api/voice HTTP/1.1" 200 -
+2025-07-13 17:09:37,310 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:37] "GET /api/me HTTP/1.1" 200 -
+2025-07-13 17:09:38,733 - utils.translation - ERROR - Translation error: timed out
+2025-07-13 17:09:38,736 - werkzeug - INFO - 127.0.0.1 - - [13/Jul/2025 17:09:38] "[35m[1mPOST /api/text HTTP/1.1[0m" 500 -

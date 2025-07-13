@@ -42,9 +42,17 @@ const SpeechRecorder: React.FC<SpeechRecorderProps> = ({ isDarkMode, setFormData
           const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
           // Send to backend
           const file = new File([audioBlob], 'recording.wav', { type: 'audio/wav' });
-          const response = await sendVoiceFileToServer(file);
-          setFormData(prev => ({ ...prev, prompt: response.translation || '' })); // Use translation for prompt
-          setTranscription(response.transcription || ''); // Use original for transcription
+          try {
+            const response = await sendVoiceFileToServer(file);
+            setFormData(prev => ({ ...prev, prompt: response.translation || response.transcription || '' }));
+            setTranscription(response.transcription || '');
+          } catch (error) {
+            console.error('Failed to process voice recording:', error);
+            // Keep the transcription as prompt if translation fails
+            if (transcription) {
+              setFormData(prev => ({ ...prev, prompt: transcription }));
+            }
+          }
         };
         mediaRecorder.start();
       });
