@@ -18,19 +18,19 @@ const TextInput: React.FC<TextInputProps> = ({ isDarkMode, setFormData }) => {
     const value = e.target.value;
     setTextInput(value);
     
-    // Update prompt immediately for better UX
-    setFormData(prev => ({ ...prev, prompt: value }));
-    
     // Try to get translation if text is not empty
     if (value.trim()) {
       try {
         const response = await sendTextToServer(value);
         if (response.translation) {
+          // Only update the shared prompt (ControlPanel), not the local text field
           setFormData(prev => ({ ...prev, prompt: response.translation }));
+          
+          
         }
       } catch (error) {
         console.log('Translation failed, using original text as prompt');
-        // Keep the original text as prompt if translation fails
+        // Do not update textInput, keep user's original input
       }
     }
   };

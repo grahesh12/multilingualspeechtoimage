@@ -486,12 +486,14 @@ export const sendTextToServer = async (text: string): Promise<{
   try {
     const response = await apiClient.processText(text);
     
-    if (response.status === 'success' && response.data) {
+    if (response.status === 'success' && response) {
+      
+
       return {
-        translation: response.data.translation || '',
-        original_text: response.data.original_text || '',
-        source_language: response.data.source_language || 'unknown',
-        target_language: response.data.target_language || 'en'
+        translation: response.translation || '',
+        original_text: response.original_text || '',
+        source_language: response.source_language || 'unknown',
+        target_language: response.target_language || 'en'
       };
     } else {
       return {
