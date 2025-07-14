@@ -9,6 +9,7 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ onBackToLanding, isDarkMode, setIsDarkMode, user }) => {
+  
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 ${isDarkMode ? 'bg-gray-900/95 backdrop-blur-md border-gray-700' : 'bg-white/95 backdrop-blur-md border-gray-200'} border-b shadow-soft`}>
       <div className="flex items-center justify-between px-6 py-4">
@@ -92,10 +93,15 @@ const Header: React.FC<HeaderProps> = ({ onBackToLanding, isDarkMode, setIsDarkM
             </div>
             
             <div className={`${isDarkMode ? 'text-white' : 'text-gray-900'}`}> 
-              <div className="text-sm font-semibold">{user?.username || 'Guest'}</div>
-              <div className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                {user?.plan ? `${user.plan} Plan` : 'Free Plan'}
-              </div>
+              {user?.username ? (
+                <>
+                  <div className="text-sm font-semibold">Username: {user.username}</div>
+                  <div className="text-xs">Plan: {user.plan}</div>
+                  <div className="text-xs">Credits: {user.credits}</div>
+                </>
+              ) : (
+                <div className="text-sm font-semibold text-gray-400">Loading...</div>
+              )}
             </div>
           </div>
         </div>

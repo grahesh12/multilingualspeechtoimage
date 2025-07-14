@@ -28,7 +28,7 @@ def main():
     app.run(
         host=host,
         port=port,
-        debug=debug
+        debug=True
     )
 
 if __name__ == "__main__":

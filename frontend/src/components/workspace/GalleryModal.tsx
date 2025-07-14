@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUserGallery } from '../../utils/server';
+import { fetchUserGallery } from '../../utils/api';
 import { 
   GalleryHeader, 
   SearchAndFilter, 
@@ -36,13 +36,9 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, isDarkMode
     setLoading(true);
     setError(null);
     try {
-      const response = await fetchUserGallery(page, 12);
-      if (response.status === 'success') {
-        setImages(response.images);
-        setTotalPages(Math.ceil(response.pagination.total / response.pagination.limit));
-      } else {
-        setError(response.error || 'Failed to fetch images');
-      }
+      const response = await fetchUserGallery({ page, limit: 12 });
+      setImages(response.images);
+      setTotalPages(Math.ceil(response.pagination.total / response.pagination.limit));
     } catch (err) {
       setError('Failed to fetch images');
     } finally {

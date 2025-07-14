@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Mic, Square } from 'lucide-react';
-import { sendVoiceFileToServer } from '../../../utils/server';
+import { sendVoiceFileToServer } from '../../../utils/api';
 
 interface SpeechRecorderProps {
   isDarkMode: boolean;

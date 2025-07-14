@@ -12,9 +12,9 @@ logger = logging.getLogger(__name__)
 
 class VoiceService:
     def __init__(self, model_name="base"):
-        """Initialize voice service with Whisper model"""
-        self.model = whisper.load_model(model_name)
-        logger.info(f"Voice service initialized with model: {model_name}")
+        """Initialize voice service with Whisper model (CPU only)"""
+        self.model = whisper.load_model(model_name, device='cpu')
+        logger.info(f"Voice service initialized with model: {model_name} (CPU only)")
     
     def transcribe_audio(self, audio_file):
         """Transcribe audio file to text"""
@@ -37,6 +37,8 @@ class VoiceService:
                 
                 original_text = original_result.get('text', '').strip()
                 translated_text = translated_result.get('text', '').strip()
+                print(original_text)
+                print(translated_text)
                 
                 if not original_text:
                     return {

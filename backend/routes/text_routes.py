@@ -37,10 +37,12 @@ def create_text_routes(translation_service: TranslationService):
             if result['success']:
                 return jsonify({
                     'status': 'success',
-                    'original_text': result['original_text'],
-                    'translation': result['translation'],
-                    'source_language': result['source_language'],
-                    'target_language': result['target_language']
+                    'data': {
+                        'original_text': result['original_text'],
+                        'translation': result['translation'],
+                        'source_language': result['source_language'],
+                        'target_language': result['target_language']
+                    }
                 }), 200
             else:
                 return jsonify({
@@ -73,8 +75,10 @@ def create_text_routes(translation_service: TranslationService):
             if result['success']:
                 return jsonify({
                     'status': 'success',
-                    'language': result['language'],
-                    'confidence': result['confidence']
+                    'data': {
+                        'language': result['language'],
+                        'confidence': result['confidence']
+                    }
                 }), 200
             else:
                 return jsonify({

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Upload } from 'lucide-react';
-import { sendVoiceFileToServer } from '../../../utils/server';
+import { sendVoiceFileToServer } from '../../../utils/api';
 
 interface AudioUploaderProps {
   isDarkMode: boolean;
@@ -43,9 +43,13 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({ isDarkMode, setFormData }
       setUploadedFile(file);
       try {
         const response = await sendVoiceFileToServer(file);
+        console.log(response);
+        
         if (response.error) {
           setErrorMsg(response.error);
           setUploadedFile(null);
+          // Print error to console for debugging
+          console.error('Audio upload error:', response.error);
           return;
         }
         setTranscription(response.transcription || '');
@@ -53,6 +57,8 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({ isDarkMode, setFormData }
       } catch (err) {
         setErrorMsg('Failed to upload or process the audio file.');
         setUploadedFile(null);
+        // Print error to console for debugging
+        console.error('Audio upload exception:', err);
       }
     }
   };
@@ -85,6 +91,8 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({ isDarkMode, setFormData }
         if (response.error) {
           setErrorMsg(response.error);
           setUploadedFile(null);
+          // Print error to console for debugging
+          console.error('Audio upload error:', response.error);
           return;
         }
         setTranscription(response.transcription || '');
@@ -92,6 +100,8 @@ const AudioUploader: React.FC<AudioUploaderProps> = ({ isDarkMode, setFormData }
       } catch (err) {
         setErrorMsg('Failed to upload or process the audio file.');
         setUploadedFile(null);
+        // Print error to console for debugging
+        console.error('Audio upload exception:', err);
       }
     }
   };

@@ -6,6 +6,7 @@ import {
   CallToAction 
 } from './WhyChooseUs/index';
 import { Sparkles, Star, Zap } from 'lucide-react';
+import { getMe } from '../../utils/authApi';
 
 interface WhyChooseUsProps {
   onEnterWorkspace: () => void;
@@ -17,16 +18,18 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ onEnterWorkspace }) => {
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('token');
-      if (token) {
-        fetch('http://localhost:5000/api/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-          .then((res) => res.ok ? res.json() : Promise.reject())
-          .then(() => setIsAuthenticated(true))
-          .catch(() => setIsAuthenticated(false));
-      } else {
+      if (!token) {
         setIsAuthenticated(false);
+        return;
       }
+      getMe()
+        .then(() => setIsAuthenticated(true))
+        .catch((error: any) => {
+          setIsAuthenticated(false);
+          if (token && error?.message && !/token/i.test(error.message)) {
+            console.error('Auth check failed:', error);
+          }
+        });
     };
 
     checkAuth();

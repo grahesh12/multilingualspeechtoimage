@@ -1,66 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import LandingPage from './components/LandingPage';
 import Workspace from './components/Workspace';
+import { UserProvider, useUserContext } from './context/UserContext';
 
-function App() {
-  const [currentView, setCurrentView] = useState<'landing' | 'workspace'>('landing');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+function AppContent() {
+  const { user, loading } = useUserContext();
+  const [currentView, setCurrentView] = React.useState<'landing' | 'workspace'>('landing');
 
-  // Check authentication status
-  const checkAuth = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setIsAuthenticated(false);
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('http://localhost:5000/api/me', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      
-      if (response.ok) {
-        setIsAuthenticated(true);
-      } else {
-        // Token is invalid, remove it
-        localStorage.removeItem('token');
-        setIsAuthenticated(false);
-      }
-    } catch (error) {
-      console.error('Auth check failed:', error);
-      localStorage.removeItem('token');
-      setIsAuthenticated(false);
-    }
-    
-    setIsLoading(false);
-  };
-
-  // Listen for authentication changes
-  useEffect(() => {
-    checkAuth();
-    
-    // Listen for storage changes (when token is added/removed)
-    const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'token') {
-        checkAuth();
-      }
-    };
-
-    // Listen for custom auth events
-    const handleAuthChange = () => {
-      checkAuth();
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('authStateChanged', handleAuthChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('authStateChanged', handleAuthChange);
-    };
-  }, []);
+  const isAuthenticated = !!user;
 
   const handleEnterWorkspace = () => {
     if (isAuthenticated) {
@@ -75,8 +22,7 @@ function App() {
     setCurrentView('landing');
   };
 
-  // Show loading spinner while checking auth
-  if (isLoading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
@@ -94,6 +40,14 @@ function App() {
         </div>
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <UserProvider>
+      <AppContent />
+    </UserProvider>
   );
 }
 

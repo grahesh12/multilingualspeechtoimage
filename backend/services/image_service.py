@@ -23,6 +23,12 @@ import hashlib
 
 logger = logging.getLogger(__name__)
 
+# Add this mapping at the top of the file (after imports)
+STYLE_TO_MODEL_KEY = {
+    'realistic': 'realistic_vision',
+    'dreamshaper': 'dreamshaper'
+}
+
 class ImageService:
     def __init__(self):
         """Initialize the image service with enhanced features"""
@@ -59,7 +65,9 @@ class ImageService:
             if style not in self.model_cache:
                 logger.info(f"Loading model: {style}")
                 try:
-                    self.model_cache[style] = model_loader.load_model(style)
+                    # Map frontend style to backend model key
+                    model_key = STYLE_TO_MODEL_KEY.get(style, style)
+                    self.model_cache[style] = model_loader.load_model(model_key)
                     logger.info(f"Model {style} loaded successfully")
                 except Exception as e:
                     logger.error(f"Failed to load model {style}: {e}")
@@ -145,6 +153,7 @@ class ImageService:
             logger.info(f"Starting image generation {generation_id}: {prompt[:100]}...")
             
             # Validate inputs
+            
             if not prompt or not prompt.strip():
                 return {
                     "success": False,

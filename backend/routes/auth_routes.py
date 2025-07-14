@@ -35,11 +35,13 @@ def create_auth_routes(user_service: UserService, mongo, bcrypt):
             if result['success']:
                 return jsonify({
                     'status': 'success',
-                    'message': 'Account created successfully',
-                    'user': result['user']
+                    'data': {
+                        'message': 'Account created successfully',
+                        'user': result['user']
+                    }
                 }), 201
             else:
-                return jsonify({'error': result['error']}), 400
+                return jsonify({'status': 'error', 'message': result['error']}), 400
                 
         except Exception as e:
             logger.error(f"Signup error: {e}")
@@ -65,12 +67,14 @@ def create_auth_routes(user_service: UserService, mongo, bcrypt):
             if result['success']:
                 return jsonify({
                     'status': 'success',
-                    'message': 'Login successful',
-                    'access_token': result['access_token'],
-                    'user': result['user']
+                    'data': {
+                        'message': 'Login successful',
+                        'access_token': result['access_token'],
+                        'user': result['user']
+                    }
                 }), 200
             else:
-                return jsonify({'error': result['error']}), 401
+                return jsonify({'status': 'error', 'message': result['error']}), 401
                 
         except Exception as e:
             logger.error(f"Login error: {e}")
@@ -93,13 +97,15 @@ def create_auth_routes(user_service: UserService, mongo, bcrypt):
             
             return jsonify({
                 'status': 'success',
-                'user': {
-                    'username': user['username'],
-                    'plan': user.get('plan', 'Free'),
-                    'credits': user.get('credits', 0),
-                    'created_at': user.get('created_at'),
-                    'last_login': user.get('last_login'),
-                    'profile': user.get('profile', {})
+                'data': {
+                    'user': {
+                        'username': user['username'],
+                        'plan': user.get('plan', 'Free'),
+                        'credits': user.get('credits', 0),
+                        'created_at': user.get('created_at'),
+                        'last_login': user.get('last_login'),
+                        'profile': user.get('profile', {})
+                    }
                 }
             }), 200
             
@@ -124,10 +130,12 @@ def create_auth_routes(user_service: UserService, mongo, bcrypt):
             if result['success']:
                 return jsonify({
                     'status': 'success',
-                    'message': result['message']
+                    'data': {
+                        'message': result['message']
+                    }
                 }), 200
             else:
-                return jsonify({'error': result['error']}), 400
+                return jsonify({'status': 'error', 'message': result['error']}), 400
                 
         except Exception as e:
             logger.error(f"Profile update error: {e}")
@@ -156,10 +164,12 @@ def create_auth_routes(user_service: UserService, mongo, bcrypt):
             if result['success']:
                 return jsonify({
                     'status': 'success',
-                    'message': result['message']
+                    'data': {
+                        'message': result['message']
+                    }
                 }), 200
             else:
-                return jsonify({'error': result['error']}), 400
+                return jsonify({'status': 'error', 'message': result['error']}), 400
                 
         except Exception as e:
             logger.error(f"Password change error: {e}")
@@ -174,8 +184,10 @@ def create_auth_routes(user_service: UserService, mongo, bcrypt):
             username = get_jwt_identity()
             return jsonify({
                 'status': 'success',
-                'message': 'Token is still valid',
-                'username': username
+                'data': {
+                    'message': 'Token is still valid',
+                    'username': username
+                }
             }), 200
             
         except Exception as e:
@@ -192,7 +204,9 @@ def create_auth_routes(user_service: UserService, mongo, bcrypt):
             # For now, we'll just return a success message
             return jsonify({
                 'status': 'success',
-                'message': 'Logged out successfully'
+                'data': {
+                    'message': 'Logged out successfully'
+                }
             }), 200
             
         except Exception as e:

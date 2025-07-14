@@ -1,7 +1,10 @@
+import React, { useState, useEffect } from 'react';
 import ControlPanel from './workspace/ControlPanel';
 import GalleryModal from './workspace/GalleryModal';
 import FeedbackModal from './workspace/FeedbackModal';
 import PaymentModal from '../landing/PaymentModal';
+import { getMe } from '../../utils/authApi';
+import Header from './Header';
 
 interface WorkspaceProps {
   onBackToLanding: () => void;
@@ -13,6 +16,7 @@ const Workspace: React.FC<WorkspaceProps> = ({ onBackToLanding }) => {
   const [showGallery, setShowGallery] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
+  const [user, setUser] = useState<{ username: string; plan: string; credits: number } | null>(null);
 
   const handleSectionChange = (section: 'create' | 'gallery' | 'feedback' | 'upgrade') => {
     setActiveSection(section);
@@ -29,18 +33,27 @@ const Workspace: React.FC<WorkspaceProps> = ({ onBackToLanding }) => {
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('token');
-      if (token) {
-        fetch('http://localhost:5000/api/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-          .then((res) => res.ok ? res.json() : Promise.reject())
-          .then((data) => {
-            setUser({ username: data.username, plan: data.plan, credits: data.credits });
-          })
-          .catch(() => setUser(null));
-      } else {
+      if (!token) {
         setUser(null);
+        return;
       }
+      getMe()
+        .then((data) => {
+          const userObj = data.data?.user || data.user || data;
+          if (userObj && userObj.username) {
+            setUser(userObj);
+            console.log('Workspace setUser:', userObj);
+          } else {
+            setUser(null);
+            console.log('Workspace setUser: null (invalid userObj)', userObj);
+          }
+        })
+        .catch((error: any) => {
+          setUser(null);
+          if (token && error?.message && !/token/i.test(error.message)) {
+            console.error('Auth check failed:', error);
+          }
+        });
     };
 
     checkAuth();
@@ -56,4 +69,18 @@ const Workspace: React.FC<WorkspaceProps> = ({ onBackToLanding }) => {
       window.removeEventListener('authStateChanged', handleAuthChange);
     };
   }, []);
+
+  return (
+    <div className={`flex-1 flex flex-col ${isDarkMode ? 'dark bg-gray-900' : 'bg-gray-50'}`}>
+      <Header 
+        onBackToLanding={onBackToLanding} 
+        isDarkMode={isDarkMode}
+        setIsDarkMode={setIsDarkMode}
+        user={user}
+      />
+      {/* ...rest of the component... */}
+    </div>
+  );
 }
+
+export default Workspace;

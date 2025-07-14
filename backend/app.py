@@ -4,6 +4,7 @@ Modular Flask application for Voice2Vision AI image generation
 
 import os
 import logging
+import sys
 from flask import Flask
 from flask_cors import CORS
 from flask_pymongo import PyMongo
@@ -31,8 +32,8 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('app.log'),
-        logging.StreamHandler()
+        logging.FileHandler('app.log', encoding='utf-8'),
+        logging.StreamHandler(sys.stdout)
     ]
 )
 logger = logging.getLogger(__name__)

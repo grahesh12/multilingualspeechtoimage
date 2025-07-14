@@ -4,3 +4,4 @@
 /backend/models
 /backend/images
 /backend/__pycache__
+/backend/utils/gpu_usage.py

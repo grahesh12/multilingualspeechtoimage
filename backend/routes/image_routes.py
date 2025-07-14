@@ -31,9 +31,8 @@ def create_image_routes(image_service: ImageService, user_service: UserService):
             
             if not data:
                 return jsonify({'error': 'Request data is required'}), 400
-            
-            prompt = data.get('text', '').strip()
-            style = data.get('style')
+            prompt = data.get('prompt', '').strip()
+            style = data.get('artStyle')
             
             # Validate prompt
             is_valid, error_msg = validate_prompt(prompt)
@@ -58,15 +57,16 @@ def create_image_routes(image_service: ImageService, user_service: UserService):
                 credit_result = user_service.deduct_credits(username, 1)
                 if not credit_result['success']:
                     logger.error(f"Failed to deduct credits for {username}")
-                
                 return jsonify({
                     'status': 'success',
-                    'message': 'Image generated successfully',
-                    'image_url': f"/images/{result['filename']}",
-                    'filename': result['filename'],
-                    'generation_time': result['generation_time'],
-                    'style_used': result['style_used'],
-                    'credits_remaining': user.get('credits', 0) - 1
+                    'data': {
+                        'message': 'Image generated successfully',
+                        'image_url': f"/images/{result['filename']}",
+                        'filename': result['filename'],
+                        'generation_time': result['generation_time'],
+                        'style_used': result['style_used'],
+                        'credits_remaining': user.get('credits', 0) - 1
+                    }
                 }), 200
             else:
                 return jsonify({
@@ -76,6 +76,7 @@ def create_image_routes(image_service: ImageService, user_service: UserService):
                 
         except Exception as e:
             logger.error(f"Image generation error: {e}")
+            print(f"Image generation error: {e}")  # Print error to terminal for debugging
             return jsonify({'error': 'Image generation failed'}), 500
     
     @image_bp.route('/api/gallery', methods=['GET'])
@@ -128,14 +129,16 @@ def create_image_routes(image_service: ImageService, user_service: UserService):
             
             return jsonify({
                 'status': 'success',
-                'images': formatted_images,
-                'pagination': {
-                    'page': page,
-                    'per_page': per_page,
-                    'total_images': total_images,
-                    'total_pages': total_pages,
-                    'has_next': page < total_pages,
-                    'has_prev': page > 1
+                'data': {
+                    'images': formatted_images,
+                    'pagination': {
+                        'page': page,
+                        'per_page': per_page,
+                        'total_images': total_images,
+                        'total_pages': total_pages,
+                        'has_next': page < total_pages,
+                        'has_prev': page > 1
+                    }
                 }
             }), 200
             
@@ -200,8 +203,10 @@ def create_image_routes(image_service: ImageService, user_service: UserService):
             
             return jsonify({
                 'status': 'success',
-                'message': 'Feedback submitted successfully',
-                'feedback_id': str(result.inserted_id)
+                'data': {
+                    'message': 'Feedback submitted successfully',
+                    'feedback_id': str(result.inserted_id)
+                }
             }), 201
             
         except Exception as e:

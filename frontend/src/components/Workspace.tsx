@@ -6,6 +6,7 @@ import ControlPanel from './workspace/ControlPanel';
 import GalleryModal from './workspace/GalleryModal';
 import FeedbackModal from './workspace/FeedbackModal';
 import PaymentModal from './landing/PaymentModal';
+import { getMe } from '../utils/authApi';
 
 interface WorkspaceProps {
   onBackToLanding: () => void;
@@ -23,21 +24,28 @@ const Workspace: React.FC<WorkspaceProps> = ({ onBackToLanding }) => {
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('token');
-      if (token) {
-        fetch('http://localhost:5000/api/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-          .then((res) => res.ok ? res.json() : Promise.reject())
-          .then((data) => {
-            setUser({ username: data.username, plan: data.plan, credits: data.credits });
-          })
-          .catch(() => setUser(null));
-      } else {
+      if (!token) {
+        
         setUser(null);
+        return;
       }
+      getMe()
+        .then((userData) => {
+          
+          const userObj = userData.data?.user || userData.user || userData;
+          setUser(userObj);
+          
+        })
+        .catch((error: any) => {
+          setUser(null);
+          if (token && error?.message && !/token/i.test(error.message)) {
+            console.error('Auth check failed:', error);
+          }
+        });
     };
 
     checkAuth();
+    
     
     // Listen for auth state changes
     const handleAuthChange = () => {

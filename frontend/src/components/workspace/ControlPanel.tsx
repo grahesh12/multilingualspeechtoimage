@@ -7,7 +7,7 @@ import NegativePromptInput from './ControlPanel/NegativePromptInput';
 import GenerateButton from './ControlPanel/GenerateButton';
 import AdvancedSettingsIndicator from './ControlPanel/AdvancedSettingsIndicator';
 import { enhancePromptWithAdvancedSettings, AdvancedSettingsData } from './ControlPanel/PromptEnhancer';
-import { sendFormDataToServer } from '../../utils/server';
+import { sendFormDataToServer } from '../../utils/api';
 
 interface ControlPanelProps {
   isDarkMode: boolean;
@@ -45,6 +45,10 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isDarkMode, formData, setFo
       setError('Insufficient credits. You need at least 5 credits to generate an image.');
       return;
     }
+    if (!formData.prompt || formData.prompt.trim() === '') {
+      setError('Prompt is required to generate an image.');
+      return;
+    }
     setIsSubmitting(true);
     try {
       // Enhance the prompt with advanced settings if they exist
@@ -53,7 +57,7 @@ const ControlPanel: React.FC<ControlPanelProps> = ({ isDarkMode, formData, setFo
         enhancedFormData.prompt = enhancePromptWithAdvancedSettings(formData.prompt, advancedSettings);
       }
       const response = await sendFormDataToServer(enhancedFormData);
-      setImgPath(response.data.filename);
+      setImgPath(response.data ? response.data.filename : '');
       // Optionally update credits in parent (handled in Workspace)
     } catch (error: any) {
       if (error?.response?.data?.message === 'Insufficient credits') {

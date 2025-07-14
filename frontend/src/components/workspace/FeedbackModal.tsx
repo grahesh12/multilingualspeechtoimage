@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { sendFeedbackToServer } from '../../utils/server';
+import { sendFeedbackToServer } from '../../utils/api';
 import { 
   FeedbackHeader, 
   FeedbackMessage, 

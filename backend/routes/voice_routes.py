@@ -25,7 +25,7 @@ def create_voice_routes(voice_service: VoiceService):
                 return jsonify({'error': 'No file uploaded'}), 400
             
             file = request.files['voice']
-            
+
             # Validate file
             allowed_extensions = ('.wav', '.mp3', '.m4a', '.ogg', '.flac')
             is_valid, error_msg = validate_file_upload(file, allowed_extensions, 25)
@@ -36,20 +36,25 @@ def create_voice_routes(voice_service: VoiceService):
             
             # Transcribe audio
             result = voice_service.transcribe_audio(file)
-            
             if result['success']:
-                return jsonify({
+                response_data = {
                     'status': 'success',
-                    'original_text': result['original_text'],
-                    'translated_text': result['translated_text'],
-                    'language': result['language'],
-                    'confidence': result['confidence']
-                }), 200
+                    'data': {
+                        'transcription': result['original_text'],
+                        'translation': result['translated_text'],
+                        'language': result['language'],
+                        'confidence': result['confidence']
+                    }
+                }
+                logger.info(f"Sending response to frontend: {response_data}")
+                return jsonify(response_data), 200
             else:
-                return jsonify({
+                error_response = {
                     'status': 'error',
                     'message': result['error']
-                }), 400
+                }
+                logger.info(f"Sending error response to frontend: {error_response}")
+                return jsonify(error_response), 400
                 
         except Exception as e:
             logger.error(f"Voice processing error: {e}")

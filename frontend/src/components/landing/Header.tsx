@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, User, LogOut, Crown } from 'lucide-react';
 import AuthModal from '../AuthModal';
+import { getMe } from '../../utils/authApi';
 
 interface HeaderProps {
   onEnterWorkspace: () => void;
@@ -16,23 +17,25 @@ const Header: React.FC<HeaderProps> = ({ onEnterWorkspace }) => {
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem('token');
-      if (token) {
-        fetch('http://localhost:5000/api/me', {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-          .then((res) => res.ok ? res.json() : Promise.reject())
-          .then((userData) => {
-            setIsAuthenticated(true);
-            setUser(userData);
-          })
-          .catch(() => {
-            setIsAuthenticated(false);
-            setUser(null);
-          });
-      } else {
+      if (!token) {
         setIsAuthenticated(false);
         setUser(null);
+        return;
       }
+      getMe()
+        .then((userData) => {
+          setIsAuthenticated(true);
+          const userObj = userData.data?.user || userData.user || userData;
+          setUser(userObj);
+          
+        })
+        .catch((error: any) => {
+          setIsAuthenticated(false);
+          setUser(null);
+          if (token && error?.message && !/token/i.test(error.message)) {
+            console.error('Auth check failed:', error);
+          }
+        });
     };
 
     checkAuth();

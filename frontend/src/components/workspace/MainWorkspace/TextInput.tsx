@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { sendTextToServer } from '../../../utils/server';
+import { sendTextToServer } from '../../../utils/api';
 
 interface TextInputProps {
   isDarkMode: boolean;
@@ -25,7 +25,6 @@ const TextInput: React.FC<TextInputProps> = ({ isDarkMode, setFormData }) => {
         if (response.translation) {
           // Only update the shared prompt (ControlPanel), not the local text field
           setFormData(prev => ({ ...prev, prompt: response.translation }));
-          
           
         }
       } catch (error) {
